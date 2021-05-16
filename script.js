@@ -1,12 +1,15 @@
 'use strict';
 
-///////////////////////////////////////
-// Modal window
-
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+const nav = document.querySelector('.nav');
+///////////////////////////////////////
+// Modal window
 
 const openModal = function (e) {
   e.preventDefault();
@@ -30,8 +33,100 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+/// Button Scrolling
+
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+  console.log(e.target.getBoundingClientRect());
+
+  ///Scrolling
+
+  // window.scrollTo(
+  //   s1coords.left + window.pageXOffset,
+  //   s1coords.top + window.pageYOffset
+  // );
+
+  // window.scrollTo({
+  //   left:s1coords.left + window.pageXOffset,
+  //   top:s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth'
+  // })
+
+  section1.scrollIntoView({
+    behavior: 'smooth',
+  });
+});
+
+////////////////////////////
+//Page navigation
+
+// document.querySelectorAll('.nav__link').forEach(function(el){
+
+//   el.addEventListener('click', function(e){
+//     e.preventDefault();
+//     const id = this.getAttribute('href')
+//     document.querySelector(id).scrollIntoView({
+//       behavior: 'smooth'
+//     });
+//   });
+// });
+
+//1. Add event \listener to commun parent element
+//2. Determine what element orginated the event
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  //Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+});
+
+//tabbed component
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContents = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function(e){
+  const clicked = e.target.closest('.operations__tab');
+
+  //Guard clause
+  if(!clicked) return;
+
+  //remove active classes
+  tabs.forEach(t=>t.classList.remove('operations__tab--active'))
+  tabsContents.forEach(c =>c.classList.remove('operations__content--active'))
+
+  //active tab
+  clicked.classList.add('operations__tab--active');
+
+  //Active content
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
+});
+
+
+//Menu fade animation
+
+nav.addEventListener('mouseover', function (e) {
+  
+})
+
+
+nav.addEventListener('mouseout', function (e) {
+  
+})
+
+
+
 ////////////////////
 ////////////////////
+
 
 // console.log(document.documentElement);
 // console.log(document.head);
@@ -82,30 +177,36 @@ message.style.width = '120%';
 message.style.height =
   Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
+// const h1 = document.querySelector('h1');
 
-btnScrollTo.addEventListener('click', function (e) {
-  const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
-  console.log(e.target.getBoundingClientRect());
+// const aletH = function(e){
+//   alert('addeEventListner: you are reading the heading')
 
-  ///Scrolling
+// }
 
-  // window.scrollTo(
-  //   s1coords.left + window.pageXOffset,
-  //   s1coords.top + window.pageYOffset
-  // );
+// h1.addEventListener('mouseenter', aletH);
 
-  // window.scrollTo({
-  //   left:s1coords.left + window.pageXOffset,
-  //   top:s1coords.top + window.pageYOffset,
-  //   behavior: 'smooth'
-  // })
+// setTimeout(()=>{
+//   h1.removeEventListener('mouseenter', aletH);
+// }, 3000)
 
-  section1.scrollIntoView({
-    behavior: 'smooth'
-  })
-});
+//rgba(255, 255, 255)
 
+// const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) +min)
+// const randomColor = ()=> `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`
 
+// document.querySelector('.nav__link').addEventListener('click', function(e){
+//   this.style.backgroundColor = randomColor();
+// })
+// document.querySelector('.nav__links').addEventListener('click', function(e){
+//   this.style.backgroundColor = randomColor();
+
+// })
+// document.querySelector('.nav').addEventListener('click', function(e){
+//   console.log('LINK');
+// });
+
+// const h1 = document.querySelector('h1');
+
+// //going downwards: child
+// console.log(h1.querySelectorAll('.highlight'));
